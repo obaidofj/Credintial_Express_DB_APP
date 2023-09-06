@@ -4,17 +4,27 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build-tsc": "tsc -w",
+    "run-watch": "nodemon ./dist",
+    "dev": "concurrently \"npm:build-tsc\"  \"npm:run-watch\""
   },
   "keywords": [],
-  "author": "",
+  "author": "Obaid Nieroukh",
   "license": "ISC",
   "dependencies": {
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "mysql": "^2.18.1",
-    "nodemon": "^3.0.1",
+    "reflect-metadata": "^0.1.13",
     "typeorm": "^0.3.17",
+    "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.17",
+    "@types/node": "^20.5.9",
+    "@types/uuid": "^9.0.3",
+    "nodemon": "^3.0.1",
     "typescript": "^5.2.2"
   }
 }
