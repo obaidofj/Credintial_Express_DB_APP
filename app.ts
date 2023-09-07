@@ -2,7 +2,9 @@ import  express from "express"
 import { Request, Response } from "express"
 import { User } from "./db/entity/user.entity"
 import { myDataSource } from "./db/app-data-source"
-import { loggerMiddleware } from './middlewares/generic.js';
+import { loggerMiddleware } from './middlewares/generic';
+import { userRouter } from './routers/user.router';
+import { adminRouter } from './routers/admin.router';
 
 // establish database connection
 myDataSource
