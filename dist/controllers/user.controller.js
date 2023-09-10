@@ -1,6 +1,6 @@
+import { User as userEntity } from '../db/entity/user.entity.js';
 import { Permissions } from '../db/entity/permissions.entity.js';
 import { Role } from '../db/entity/role.entity.js';
-import { User } from '../db/entity/user.entity.js';
 import { In } from 'typeorm';
 const insertRole = async (payload) => {
     try {
@@ -31,15 +31,16 @@ const insertPermission = async (payload) => {
 };
 const assignRoleToUser = async (payload) => {
     try {
-        const user = await User.findOne({ where: { id: payload.userId } });
-        const roles = await Role.findBy({id: In(payload.roleIds)});
-        if (!user.roles) {
-            user.roles = []; // Initialize roles as an empty array if it's undefined
-          }
-        user.roles.push(...roles);
-        
-        await user.save();
-        return user.roles;
+        const user = await userEntity.findOne({ where: { id: Number(payload.id) } });
+        const roles = await Role.findBy({ id: In(payload.roles) });
+        if (user) {
+            if (!user.roles) {
+                user.roles = []; // Initialize roles as an empty array if it's undefined
+            }
+            user.roles.push(...roles); // Use the spread operator to add multiple roles
+            await user.save();
+            return user;
+        }
     }
     catch (error) {
         console.log(error);

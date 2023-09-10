@@ -24,7 +24,7 @@ export class User extends BaseEntity {
 
     @ManyToMany(() => Role, role => role.users, {  eager: true })
     @JoinTable()
-    role: Role;
+    roles: Role[];
   
     @CreateDateColumn({
       type: 'timestamp',

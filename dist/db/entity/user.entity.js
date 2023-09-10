@@ -21,7 +21,7 @@ let User = class User extends BaseEntity {
     }
     password;
     email;
-    role;
+    roles;
     createdAt;
     profile;
 };
@@ -50,8 +50,8 @@ __decorate([
 __decorate([
     ManyToMany(() => Role, role => role.users, { eager: true }),
     JoinTable(),
-    __metadata("design:type", Role)
-], User.prototype, "role", void 0);
+    __metadata("design:type", Array)
+], User.prototype, "roles", void 0);
 __decorate([
     CreateDateColumn({
         type: 'timestamp',
