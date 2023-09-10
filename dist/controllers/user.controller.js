@@ -2,6 +2,8 @@ import { User as userEntity } from '../db/entity/user.entity.js';
 import { Permissions } from '../db/entity/permissions.entity.js';
 import { Role } from '../db/entity/role.entity.js';
 import { In } from 'typeorm';
+import { Profile } from '../db/entity/profile.entity.js';
+import { myDataSource } from "../db/app-data-source.js";
 const insertRole = async (payload) => {
     try {
         const role = new Role();
@@ -26,8 +28,33 @@ const insertPermission = async (payload) => {
     }
     catch (error) {
         console.log(error);
-        throw ("Something went wrong" + error);
+        throw ("Something went wrong");
     }
+};
+const insertProfile = async (payload) => {
+    return myDataSource.manager.transaction(async (transaction) => {
+        try {
+            const user = await userEntity.findOne({ where: { id: Number(payload.id) } });
+            if (user) {
+                const profile = Profile.create({
+                    firstName: payload.firstName,
+                    lastName: payload.lastName,
+                    dateOfBirth: payload.dateOfBirth
+                });
+                await transaction.save(profile);
+                user.profile = profile;
+                await transaction.save(user);
+                return profile;
+            } //end if
+            else {
+                throw ("this user dose not exist");
+            }
+        }
+        catch (error) {
+            console.log(error);
+            throw ("Something went wrong");
+        }
+    });
 };
 const assignRoleToUser = async (payload) => {
     try {
@@ -44,7 +71,7 @@ const assignRoleToUser = async (payload) => {
     }
     catch (error) {
         console.log(error);
-        throw ("Something went wrong" + error);
+        throw ("Something went wrong");
     }
 };
-export { insertPermission, insertRole, assignRoleToUser };
+export { insertPermission, insertRole, assignRoleToUser, insertProfile };

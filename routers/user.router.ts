@@ -46,49 +46,15 @@ router.post('/', async (req: User.Request, res: User.Response) => {
 });
 
 
+router.post('/assignrole',  (req, res, next) => {
+  userCon.assignRoleToUser(req.body).then((data) => {
+    res.status(201).send(data)
+  }).catch(err => {
+    console.error(err);
+    res.status(500).send(err);
+  });
+});
 
 
-
-
-// router.get('/:id', async (req, res) => {
-//   const id = req.params.id;
-//   // const task = await Todo.findOne({ where: { id } });
-//   const task = await Todo.findOne({
-//     where: { id },
-//     relations: ['user', 'user.profile'],
-//   });
-//   if (task) {
-//     res.status(200).send(task);
-//   } else {
-//     res.status(404).send("Task not found");
-//   }
-// });
-
-
-
-// router.put('/:id', async (req, res) => {
-//   const id = req.params.id;
-//   const task = await Todo.findOneBy({ id });
-//   if (task) {
-//     // task.title = req.body.title;
-//     // task.description = req.body.description;
-//     task.status = 'done';
-//     task.save();
-//     res.send('Task Updated');
-//   } else {
-//     res.status(404).send('Task not found!');
-//   }
-// });
-
-// router.delete('/:id', async (req, res) => {
-//   const id = req.params.id;
-//   const task = await Todo.findOneBy({ id });
-//   if (task) {
-//     task.remove();
-//     res.send('Task Deleted');
-//   } else {
-//     res.status(404).send('Task not found!');
-//   }
-// });
 
 export default router;
