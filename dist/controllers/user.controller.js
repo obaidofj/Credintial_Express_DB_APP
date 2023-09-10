@@ -1,5 +1,6 @@
 import { Permissions } from '../db/entity/permissions.entity.js';
 import { Role } from '../db/entity/role.entity.js';
+import { User } from '../db/entity/user.entity.js';
 import { In } from 'typeorm';
 const insertRole = async (payload) => {
     try {
@@ -30,11 +31,15 @@ const insertPermission = async (payload) => {
 };
 const assignRoleToUser = async (payload) => {
     try {
-        const permission = Permissions.create({
-            name: payload.name
-        });
-        await permission.save();
-        return permission;
+        const user = await User.findOne({ where: { id: payload.userId } });
+        const roles = await Role.findBy({id: In(payload.roleIds)});
+        if (!user.roles) {
+            user.roles = []; // Initialize roles as an empty array if it's undefined
+          }
+        user.roles.push(...roles);
+        
+        await user.save();
+        return user.roles;
     }
     catch (error) {
         console.log(error);
