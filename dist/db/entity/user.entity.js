@@ -7,8 +7,10 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-import { Entity, Column, PrimaryGeneratedColumn, BaseEntity, BeforeInsert } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, BaseEntity, BeforeInsert, JoinTable, OneToOne, CreateDateColumn, ManyToMany, JoinColumn } from "typeorm";
 import bcrypt from 'bcrypt';
+import { Role } from "./role.entity.js";
+import { Profile } from "./profile.entity.js";
 let User = class User extends BaseEntity {
     id;
     username;
@@ -19,13 +21,16 @@ let User = class User extends BaseEntity {
     }
     password;
     email;
+    role;
+    createdAt;
+    profile;
 };
 __decorate([
     PrimaryGeneratedColumn(),
     __metadata("design:type", Number)
 ], User.prototype, "id", void 0);
 __decorate([
-    Column(),
+    Column({ nullable: false }),
     __metadata("design:type", String)
 ], User.prototype, "username", void 0);
 __decorate([
@@ -35,13 +40,30 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], User.prototype, "hashPassword", null);
 __decorate([
-    Column(),
+    Column({ nullable: false }),
     __metadata("design:type", String)
 ], User.prototype, "password", void 0);
 __decorate([
     Column(),
     __metadata("design:type", String)
 ], User.prototype, "email", void 0);
+__decorate([
+    ManyToMany(() => Role, role => role.users, { eager: true }),
+    JoinTable(),
+    __metadata("design:type", Role)
+], User.prototype, "role", void 0);
+__decorate([
+    CreateDateColumn({
+        type: 'timestamp',
+        default: () => "CURRENT_TIMESTAMP()"
+    }),
+    __metadata("design:type", Date)
+], User.prototype, "createdAt", void 0);
+__decorate([
+    OneToOne(() => Profile, profile => profile.user, { cascade: true, eager: true }),
+    JoinColumn(),
+    __metadata("design:type", Profile)
+], User.prototype, "profile", void 0);
 User = __decorate([
     Entity()
 ], User);

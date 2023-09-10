@@ -1,8 +1,6 @@
 import express from 'express';
 import { User as userEntity } from '../db/entity/user.entity.js';
 import { userValidationMiddleware } from '../middlewares/user.middelware.js';
-import jwt from 'jsonwebtoken';
-import { checkToken } from '../middlewares/generic.js';
 const router = express.Router();
 const saltRounds = 10;
 router.post('/', userValidationMiddleware);
@@ -19,7 +17,7 @@ router.get('/', async (req, res) => {
     }
     catch (error) {
         console.error(error);
-        res.status(500).send("Something went wrong!");
+        res.status(500).send("Something went wrong!" + error);
     }
 });
 router.post('/', async (req, res) => {
@@ -33,26 +31,6 @@ router.post('/', async (req, res) => {
         console.error(error);
         res.status(500).send('Something went wrong');
     });
-});
-router.get('/login', async (req, res) => {
-    try {
-        var token = jwt.sign({ user: 'obaid' }, process.env.ACCESS_KEY || '');
-        res.send(token);
-    }
-    catch (error) {
-        console.error(error);
-        res.status(500).send("Something went wrong!");
-    }
-});
-router.get('/test', checkToken, async (req, res) => {
-    try {
-        var token = jwt.sign({ user: 'obaid' }, process.env.ACCESS_KEY);
-        res.send(res.locals.send);
-    }
-    catch (error) {
-        console.error(error);
-        res.status(500).send("Something went wrong!");
-    }
 });
 // router.get('/:id', async (req, res) => {
 //   const id = req.params.id;

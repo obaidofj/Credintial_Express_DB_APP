@@ -13,17 +13,18 @@ let Profile = class Profile extends BaseEntity {
     firstName;
     lastName;
     dateOfBirth;
+    user;
 };
 __decorate([
     PrimaryGeneratedColumn(),
     __metadata("design:type", Number)
 ], Profile.prototype, "id", void 0);
 __decorate([
-    Column(),
+    Column({ nullable: false }),
     __metadata("design:type", String)
 ], Profile.prototype, "firstName", void 0);
 __decorate([
-    Column(),
+    Column({ nullable: false }),
     __metadata("design:type", String)
 ], Profile.prototype, "lastName", void 0);
 __decorate([

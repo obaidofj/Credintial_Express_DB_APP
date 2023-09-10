@@ -30,6 +30,21 @@ const insertRole = async (payload: User.Role) => {
       return permission;
     } catch (error) {
       console.log(error);
-      throw ("Something went wrong");
+      throw ("Something went wrong"+error);
     }
   }
+
+  const assignRoleToUser = async (payload: User.UserRoles) => {
+    try {
+      const permission = Permissions.create({
+        name: payload.name
+      });
+      await permission.save();
+      return permission;
+    } catch (error) {
+      console.log(error);
+      throw ("Something went wrong"+error);
+    }
+  }
+
+  export {insertPermission,insertRole,assignRoleToUser}

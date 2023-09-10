@@ -1,4 +1,4 @@
-import User from '../types/user';
+import {User} from '../types/user';
 import express from 'express';
 
 const userValidationMiddleware = (req: User.Request, res: express.Response, next: express.NextFunction) => {

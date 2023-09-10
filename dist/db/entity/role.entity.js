@@ -7,19 +7,27 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-import { Entity, Column, PrimaryGeneratedColumn, BaseEntity } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, BaseEntity, ManyToMany, JoinTable } from "typeorm";
+import { Permissions } from "./permissions.entity.js";
 let Role = class Role extends BaseEntity {
     id;
     name; // "admin," "user," "editor"
+    permissions;
+    users;
 };
 __decorate([
     PrimaryGeneratedColumn(),
     __metadata("design:type", Number)
 ], Role.prototype, "id", void 0);
 __decorate([
-    Column(),
+    Column({ unique: true }),
     __metadata("design:type", String)
 ], Role.prototype, "name", void 0);
+__decorate([
+    ManyToMany(() => Permissions, { cascade: true, eager: true }),
+    JoinTable(),
+    __metadata("design:type", Array)
+], Role.prototype, "permissions", void 0);
 Role = __decorate([
     Entity()
 ], Role);

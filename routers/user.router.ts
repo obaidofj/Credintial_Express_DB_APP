@@ -25,7 +25,7 @@ router.get('/', async (req: User.Request, res: User.Response) => {
 
   } catch (error) {
     console.error(error);
-    res.status(500).send("Something went wrong!");
+    res.status(500).send("Something went wrong!"+error);
   }
 });
 

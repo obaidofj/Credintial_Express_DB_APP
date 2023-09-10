@@ -4,7 +4,7 @@ import { User } from "./db/entity/user.entity"
 import { myDataSource } from "./db/app-data-source.js"
 import { loggerMiddleware } from './middlewares/generic.js';
 import userRouter  from './routers/user.router.js';
-// import  adminRouter  from './routers/admin.router';
+import  adminRouter  from './routers/admin.router.js';
  
 // establish database connection
 myDataSource 
@@ -31,7 +31,7 @@ app.get('/', (req, res) => {
 
 app.use('/v1/user', userRouter);
 
-// app.use('/v1/admin', adminRouter);
+ app.use('/v1/admin', adminRouter);
  
  
 

@@ -1,5 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, BaseEntity, ManyToMany, JoinTable, OneToMany } from "typeorm"
-import { User } from "./user.entity";
+import { User } from "./user.entity.js";
+import { Permissions } from "./permissions.entity.js";
 
 @Entity()
 export class Role extends BaseEntity {
@@ -13,7 +14,6 @@ export class Role extends BaseEntity {
     @JoinTable()
     permissions: Permissions[];
   
-    @OneToMany(() => User, user => user.role)
     users: User[];
     
 }

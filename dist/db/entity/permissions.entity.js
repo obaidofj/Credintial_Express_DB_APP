@@ -17,7 +17,7 @@ __decorate([
     __metadata("design:type", Number)
 ], Permissions.prototype, "id", void 0);
 __decorate([
-    Column(),
+    Column({ unique: true }),
     __metadata("design:type", String)
 ], Permissions.prototype, "name", void 0);
 Permissions = __decorate([
