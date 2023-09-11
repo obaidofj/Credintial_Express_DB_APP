@@ -1,8 +1,6 @@
 import express from 'express';
 import { User as userEntity } from '../db/entity/user.entity.js';
 import { userValidationMiddleware } from '../middlewares/user.middelware.js';
-import * as userCon from '../controllers/user.controller.js';
-
 const router = express.Router();
 const saltRounds = 10;
 router.post('/', userValidationMiddleware);
@@ -19,7 +17,7 @@ router.get('/', async (req, res) => {
     }
     catch (error) {
         console.error(error);
-        res.status(500).send("Something went wrong!");
+        res.status(500).send("Something went wrong!" + error);
     }
 });
 router.post('/', async (req, res) => {
@@ -34,8 +32,8 @@ router.post('/', async (req, res) => {
         res.status(500).send('Something went wrong');
     });
 });
-router.post('/profile', (req, res, next) => {
-    userCon.insertProfile(req.body).then((data) => {
+router.post('/assignrole', (req, res, next) => {
+    userCon.assignRoleToUser(req.body).then((data) => {
         res.status(201).send(data);
     }).catch(err => {
         console.error(err);
