@@ -55,6 +55,31 @@ router.post('/assignrole',  (req, res, next) => {
   });
 });
 
+router.post('/login', (req, res) => {
+  const email = req.body.email;
+  const password = req.body.password;
+
+login(email, password)
+    .then(data => {
+      res.send(data);
+    })
+    .catch(err => {
+      res.status(401).send(err);
+    })
+});
+
+router.post('/verify', (req, res) => {
+  const email = req.body.token;
+
+login(email, password)
+    .then(data => {
+      res.send(data);
+    })
+    .catch(err => {
+      res.status(401).send(err);
+    })
+});
+
 
 
 export default router;

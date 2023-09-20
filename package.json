@@ -5,7 +5,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "tsc && jest",
     "build-tsc": "tsc -w",
     "run-watch": "nodemon --experimental-modules ./dist",
     "dev": "concurrently \"npm:build-tsc\"  \"npm:run-watch\""
@@ -17,6 +17,7 @@
     "bcrypt": "^5.1.1",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
+    "jest": "^29.7.0",
     "jsonwebtoken": "^9.0.2",
     "mysql": "^2.18.1",
     "reflect-metadata": "^0.1.13",
@@ -26,7 +27,8 @@
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
     "@types/express": "^4.17.17",
-    "@types/jsonwebtoken": "^9.0.2",
+    "@types/jest": "^29.5.5",
+    "@types/jsonwebtoken": "^9.0.3",
     "@types/node": "^20.5.9",
     "@types/uuid": "^9.0.3",
     "concurrently": "^8.2.1",
