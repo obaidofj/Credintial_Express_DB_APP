@@ -1,7 +1,7 @@
 import { myDataSource } from "../db/app-data-source.js"
 import  supertest  from "supertest"
 import {app} from '../index.js'
-
+import { User } from '../db/entity/user.entity.js';
 
 beforeAll(async () => {
   myDataSource 
@@ -24,6 +24,11 @@ const userData = {
   "password": "1234"
 };
 
+const assignRolePayload={
+    "id":1,
+    "roles":[1,2]
+}
+
 describe("POST Create User,Rout /v1/user/", async () => {
   
   // beforeAll(async () => {    
@@ -36,5 +41,19 @@ describe("POST Create User,Rout /v1/user/", async () => {
 
   // expect(response.body).toHaveProperty('message');
   // expect(response.body.message).toMatch(/^User Created with ID:\d+$/); 
+
+
+         
+});
+
+describe("POST Assign Role To User,Rout /v1/admin/assignrole", async () => {
+  
+  // beforeAll(async () => {    
+  // })
+
+  const res = await supertest(app).post('/v1/admin/assignrole').send(assignRolePayload);
+
+  expect(res.statusCode).toBe(200);
+  expect(response.text).instanceOf(user);
 
 });
