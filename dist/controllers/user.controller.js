@@ -4,6 +4,8 @@ import { Role } from '../db/entity/role.entity.js';
 import { In } from 'typeorm';
 import { Profile } from '../db/entity/profile.entity.js';
 import { myDataSource } from "../db/app-data-source.js";
+import jwt from 'jsonwebtoken';
+import bcrypt from 'bcrypt';
 const insertRole = async (payload) => {
     try {
         const role = new Role();
@@ -74,4 +76,28 @@ const assignRoleToUser = async (payload) => {
         throw ("Something went wrong");
     }
 };
-export { insertPermission, insertRole, assignRoleToUser, insertProfile };
+const login = async (username, email, password) => {
+    try {
+        const user = await userEntity.findOneBy({
+            username: username
+        });
+        const passwordMatching = await bcrypt.compare(password, user?.password || '');
+        if (user && passwordMatching) {
+            const token = jwt.sign({
+                userName: user.username,
+                email: user.email,
+                full_name: user?.profile?.firstName + ' ' + user?.profile?.lastName
+            }, process.env.SECRET_KEY || '', {
+                expiresIn: "2w"
+            });
+            return token;
+        }
+        else {
+            throw ("Invalid Username or password!");
+        }
+    }
+    catch (error) {
+        throw ("Invalid Username or password!");
+    }
+};
+export { insertPermission, insertRole, assignRoleToUser, insertProfile, login };

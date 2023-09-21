@@ -27,3 +27,4 @@ app.listen(PORT, () => {
     console.log(`App is running and Listening on port ${PORT}`);
     //myDataSource.initialize();
 });
+export { app };

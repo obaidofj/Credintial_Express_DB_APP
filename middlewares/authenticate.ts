@@ -1,7 +1,7 @@
 import express from 'express';
 import jwt from 'jsonwebtoken';
-import { User } from '../../db/entities/User.js';
-import { verify } from 'crypto';
+import { User } from '../db/entity/user.entity.js';
+
 
 const authenticate = async (
   req: express.Request,
@@ -14,11 +14,11 @@ const authenticate = async (
 
   if (tokenIsValid) {
     const decoded = jwt.decode(token, { json: true });
-    const user = await User.findOneBy({ email: decoded?.email || '' })
+    const user = await User.findOneBy({ username: decoded?.username || '' })
     res.locals.user = user;
     next();
   } else {
-    res.status(401).send("You are Unauthorized!");
+    res.status(401).send("You are Unauthenticated!");
   }
 }
 
@@ -38,5 +38,5 @@ const verifyToken = (token:string)=>
 
 
 export {
-  authenticate, verifyToken
+  authenticate, verifyToken as verify
 }

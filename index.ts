@@ -31,7 +31,7 @@ app.get('/', (req, res) => {
 
 app.use('/v1/user', userRouter);
 
- app.use('/v1/admin', adminRouter);
+app.use('/v1/admin', adminRouter);
  
  
 
@@ -40,3 +40,5 @@ app.listen(PORT, () => {
     console.log(`App is running and Listening on port ${PORT}`);
     //myDataSource.initialize();
   });
+
+  export { app }

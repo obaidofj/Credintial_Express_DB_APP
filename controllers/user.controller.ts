@@ -5,10 +5,13 @@ import { User as userEntity } from '../db/entity/user.entity.js';
 import { Permissions } from '../db/entity/permissions.entity.js';
 import { userValidationMiddleware } from '../middlewares/user.middelware.js';
 import { Role } from '../db/entity/role.entity.js';
-import { EntityManager, In } from 'typeorm';
+import { EntityManager, In  } from 'typeorm';
 import { Profile } from '../db/entity/profile.entity.js';
 import { myDataSource } from "../db/app-data-source.js"
 import jwt from 'jsonwebtoken';
+import bcrypt from 'bcrypt';
+
+
 
 
 const insertRole = async (payload: User.Role) => {
@@ -94,23 +97,25 @@ const assignRoleToUser = async (payload: User.UserRoles) => {
     }
 }
 
-const login = async (email: string, password: string) => {
+const login = async (username: string, email: string, password: string) => {
     try {
-      const user = await User.findOneBy({
-        email
+      const user = await userEntity.findOneBy({
+        username:username
       });
-  
+
+      
       const passwordMatching = await bcrypt.compare(password, user?.password || '');
-  
+
       if (user && passwordMatching) {
         const token = jwt.sign(
           {
+            userName: user.username,
             email: user.email,
-            fullName: user.fullName
+            full_name: user?.profile?.firstName+' '+user?.profile?.lastName
           },
           process.env.SECRET_KEY || '',
           {
-            expiresIn: "30m"
+            expiresIn: "2w"
           }
         );
   

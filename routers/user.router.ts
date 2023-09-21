@@ -2,7 +2,8 @@ import express from 'express';
 import {User} from '../types/user.js';
 import { User as userEntity } from '../db/entity/user.entity.js';
 import { userValidationMiddleware } from '../middlewares/user.middelware.js';
-
+import * as userController from '../controllers/user.controller.js';
+import { verify } from '../middlewares/authenticate.js';
 
 const router = express.Router();
 
@@ -47,7 +48,7 @@ router.post('/', async (req: User.Request, res: User.Response) => {
 
 
 router.post('/assignrole',  (req, res, next) => {
-  userCon.assignRoleToUser(req.body).then((data) => {
+  userController.assignRoleToUser(req.body).then((data) => {
     res.status(201).send(data)
   }).catch(err => {
     console.error(err);
@@ -57,9 +58,10 @@ router.post('/assignrole',  (req, res, next) => {
 
 router.post('/login', (req, res) => {
   const email = req.body.email;
+  const userName = req.body.username;
   const password = req.body.password;
 
-login(email, password)
+  userController.login(userName, email, password)
     .then(data => {
       res.send(data);
     })
@@ -69,15 +71,17 @@ login(email, password)
 });
 
 router.post('/verify', (req, res) => {
-  const email = req.body.token;
+  const token = req.body.token;
 
-login(email, password)
-    .then(data => {
-      res.send(data);
-    })
-    .catch(err => {
-      res.status(401).send(err);
-    })
+  if(verify(token))
+  {
+    res.send({'token':true,'msg':'The token is right'})
+  }
+  else
+  {
+    res.send({'token':false,'msg':'The token is wrong'})
+  }
+   
 });
 
 
