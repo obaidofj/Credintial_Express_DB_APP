@@ -34,8 +34,8 @@ router.post('/', async (req, res) => {
         res.status(500).send('Something went wrong');
     });
 });
-router.post('/assignrole', (req, res, next) => {
-    userController.assignRoleToUser(req.body).then((data) => {
+router.post('/profile', (req, res, next) => {
+    userController.insertProfile(req.body).then((data) => {
         res.status(201).send(data);
     }).catch(err => {
         console.error(err);
