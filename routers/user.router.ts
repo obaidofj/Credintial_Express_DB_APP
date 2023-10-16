@@ -11,7 +11,7 @@ const saltRounds = 10;
 
 router.post('/', userValidationMiddleware);
 
-router.get('/', async (req: User.Request, res: User.Response) => {
+router.get('/', async (req: User.Request, res: User.Response,next:) => {
   try {
 
     const [items, total] = await userEntity.findAndCount({
@@ -25,12 +25,13 @@ router.get('/', async (req: User.Request, res: User.Response) => {
     });
 
   } catch (error) {
-    console.error(error);
-    res.status(500).send("Something went wrong!"+error);
+    next(error);
+    // console.error(error);
+    // res.status(500).send("Something went wrong!"+error);
   }
 });
 
-router.post('/', async (req: User.Request, res: User.Response) => {
+router.post('/', async (req: User.Request, res: User.Response,next:express.next) => {
 
   const newUser = new userEntity();
   newUser.username = req.body.username;

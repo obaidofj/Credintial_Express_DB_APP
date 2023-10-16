@@ -18,6 +18,12 @@ myDataSource
 
 const PORT = process.env.APP_PORT || 3000;
 
+const errorHand=(err:any)=>{
+    console.log("error");
+    console.log(err);
+}
+
+
 // create and setup express app
 const app = express()
 app.use(express.json())
@@ -33,7 +39,7 @@ app.use('/v1/user', userRouter);
 
 app.use('/v1/admin', adminRouter);
  
- 
+app.use(errorHand);
 
 // start express server
 app.listen(PORT, () => {

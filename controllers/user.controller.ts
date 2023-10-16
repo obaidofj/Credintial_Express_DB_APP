@@ -42,9 +42,8 @@ const insertPermission = async (payload: User.Permissions) => {
 }
 
 const insertProfile = async (payload: User.Profile) => {
-    return myDataSource.manager.transaction(async (transaction: EntityManager) => {
+    return myDataSource.manager.transaction(async (transaction: EntityManager) => {d
         try {
-
 
             const user = await userEntity.findOne({ where: { id: Number(payload.id) } });
             if (user) {
